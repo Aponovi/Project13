@@ -14,15 +14,15 @@ class Tests_Lettings_Views:
         expected_content_1 = "<h1>Lettings</h1>"
         expected_content_2 = "Wayne Manor"
 
-        Address.objects.create(number=1007,
-                               street='Mountain Drive',
-                               city='Gotham City',
-                               state='NJ',
-                               zip_code='12345',
-                               country_iso_code='USA'
-                               )
+        address = Address.objects.create(number=1007,
+                                         street='Mountain Drive',
+                                         city='Gotham City',
+                                         state='NJ',
+                                         zip_code='12345',
+                                         country_iso_code='USA'
+                                         )
         Letting.objects.create(title="Wayne Manor",
-                               address_id=1)
+                               address_id=address.id)
         path = reverse('lettings:index')
         response = client.get(path)
         content = response.content.decode()
