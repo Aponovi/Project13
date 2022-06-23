@@ -21,7 +21,7 @@ def test_letting_index_view():
     path = reverse('lettings:index')
     response = client.get(path)
     content = response.content.decode()
-    expected_content = "<p>Lettings</p>"
+    expected_content = "<h1>Lettings</h1>"
 
     assert expected_content in content
     assert response.status_code == 200
