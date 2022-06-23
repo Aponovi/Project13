@@ -9,29 +9,30 @@ class Migration(migrations.Migration):
         ('profiles', '0001_initial'),
     ]
 
-    operations = [migrations.RunSQL("""
-                INSERT INTO profiles_profile(
-                        id,
-                        favorite_city,
-                        user_id
-                )
-                SELECT
-                        id,
-                        favorite_city,
-                        user_id
-                FROM
-                oc_lettings_site_profile;
-            """, reverse_sql="""
-             INSERT INTO oc_lettings_site_profile(
-                        id,
-                        favorite_city,
-                        user_id
-                )
-                SELECT
-                        id,
-                        favorite_city,
-                        user_id
-                FROM
-                        profiles_profile;
-                            """),
+    operations = [
+        # migrations.RunSQL("""
+        #         INSERT INTO profiles_profile(
+        #                 id,
+        #                 favorite_city,
+        #                 user_id
+        #         )
+        #         SELECT
+        #                 id,
+        #                 favorite_city,
+        #                 user_id
+        #         FROM
+        #         oc_lettings_site_profile;
+        #     """, reverse_sql="""
+        #      INSERT INTO oc_lettings_site_profile(
+        #                 id,
+        #                 favorite_city,
+        #                 user_id
+        #         )
+        #         SELECT
+        #                 id,
+        #                 favorite_city,
+        #                 user_id
+        #         FROM
+        #                 profiles_profile;
+        #                     """),
     ]
