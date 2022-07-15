@@ -11,8 +11,9 @@ class Tests_Lettings_Views:
 
     def test_lettings_index_view(self):
         client = Client()
-        expected_content_1 = "<h1>Lettings</h1>"
-        expected_content_2 = "Wayne Manor"
+        expected_content_1 = '<title>Lettings</title>'
+        expected_content_2 = "<h1>Lettings</h1>"
+        expected_content_3 = "Wayne Manor"
 
         address = Address.objects.create(number=1007,
                                          street='Mountain Drive',
@@ -29,13 +30,15 @@ class Tests_Lettings_Views:
 
         assert expected_content_1 in content
         assert expected_content_2 in content
+        assert expected_content_3 in content
         assert response.status_code == 200
         assertTemplateUsed(response, "lettings/index.html")
 
     def test_lettings_letting_view(self):
         client = Client()
-        expected_content_1 = "<h1>Wayne Manor</h1>"
-        expected_content_2 = "<p>1007 Mountain Drive</p>"
+        expected_content_1 = '<title>Wayne Manor</title>'
+        expected_content_2 = "<h1>Wayne Manor</h1>"
+        expected_content_3 = "<p>1007 Mountain Drive</p>"
 
         Address.objects.create(number=1007,
                                street='Mountain Drive',
@@ -52,5 +55,6 @@ class Tests_Lettings_Views:
 
         assert expected_content_1 in content
         assert expected_content_2 in content
+        assert expected_content_3 in content
         assert response.status_code == 200
         assertTemplateUsed(response, "lettings/letting.html")
