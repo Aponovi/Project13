@@ -35,20 +35,20 @@ jobs:
           name: Run linting
           command: flake8
 
-#  containerize:
-#    docker:
-#      - image: cimg/python:3.10
-#    steps:
-#      - checkout
-#      - setup_remote_docker:
-#          version: 20.10.14
-#      - run: |
-#          TAG=$CIRCLE_SHA1
-#          docker build -t $DOCKERHUB_USER/oc-lettings
-#          docker build -t $DOCKERHUB_USER/oc-lettings:$TAG .
-#          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
-#          docker push $DOCKERHUB_USER/oc-lettings
-#          docker push $DOCKERHUB_USER/oc-lettings:$TAG
+  containerize:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run: |
+          TAG=$CIRCLE_SHA1
+          docker build -t $DOCKERHUB_USER/oc-lettings
+          docker build -t $DOCKERHUB_USER/oc-lettings:$TAG .
+          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
+          docker push $DOCKERHUB_USER/oc-lettings
+          docker push $DOCKERHUB_USER/oc-lettings:$TAG
 
 
 workflows:
