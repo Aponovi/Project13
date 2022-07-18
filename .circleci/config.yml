@@ -46,7 +46,7 @@ jobs:
           name: Build Docker image
           command: |
               TAG = $CIRCLE_SHA1
-              docker build --tag $DOCKER_USER/oc-lettings:TAG .
+              docker build --tag $DOCKER_USER/oc-lettings:$TAG .
       - run:
           name: Push Docker image
           command: |
