@@ -122,7 +122,7 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 sentry_sdk.init(
-    dsn="https://9c4684fdcf1945b2aa255b554db350b9@o1289110.ingest.sentry.io/6582921",
+    dsn=os.environ.get('DSN'),
     integrations=[
         DjangoIntegration(),
     ],
