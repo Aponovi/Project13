@@ -52,7 +52,7 @@ jobs:
               echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
               docker push "$DOCKERHUB_USER/oc-lettings-site:$CIRCLE_SHA1"
 
-  deploy-production:
+  deploy:
     executor: heroku/default
     steps:
       - checkout
