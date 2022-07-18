@@ -45,13 +45,10 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-              TAG = $CIRCLE_SHA1
-              docker build --tag $DOCKER_USER/oc-lettings:$TAG .
-      - run:
-          name: Push Docker image
-          command: |
-            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
-            docker push $DOCKERHUB_USER/oc-lettings:$CIRCLE_SHA1
+            docker build --tag oc-lettings:"$CIRCLE_SHA1" .
+            docker login --username $DOCKERHUB_USER --password $DOCKERHUB_PASSWORD
+            docker tag oc-lettings:"$CIRCLE_SHA1" $DOCKERHUB_USER/oc-lettings:"$CIRCLE_SHA1"
+            docker push $DOCKERHUB_USER/oc-lettings:"$CIRCLE_SHA1"
 
 
 workflows:
