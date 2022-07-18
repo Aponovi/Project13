@@ -1,13 +1,5 @@
 version: 2.1
 
-executors:
-  default:
-    docker:
-      - image: circleci/python:3.10
-        auth:
-          username: $DOCKERHUB_USER
-          password: $TOKEN_DOCKER
-
 orbs:
   # The python orb contains a set of prepackaged circleci configuration you can use repeatedly in your configurations files
   # Orb commands and jobs help you with common scripting around a language/tool
@@ -44,24 +36,24 @@ jobs:
           name: Run linting
           command: flake8
 
-#  containerize:
-#      docker:
-#      - image: circleci/python:3.10
-#        auth:
-#          username: ${DOCKERHUB_USER}
-#          password: ${DOCKERHUB_PASSWORD}
-#    working_directory: ~/project
-#    steps:
-#      - checkout
-#      - setup_remote_docker:
-#          version: 20.10.2
-#      - run:
-#          name: build
-#          command: |
-#            docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
-#            docker tag oc-lettings-site:$CIRCLE_SHA1 aponovi/oc-lettings-site:$CIRCLE_SHA1
-#            echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USER}' --password-stdin
-#            docker push aponovi/oc-lettings-site:$CIRCLE_SHA1
+  containerize:
+      docker:
+      - image: circleci/python:3.10
+        auth:
+          username: ${DOCKERHUB_USER}
+          password: ${DOCKERHUB_PASSWORD}
+    working_directory: ~/project
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.2
+      - run:
+          name: build
+          command: |
+            docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
+            docker tag oc-lettings-site:$CIRCLE_SHA1 aponovi/oc-lettings-site:$CIRCLE_SHA1
+            echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USER}' --password-stdin
+            docker push aponovi/oc-lettings-site:$CIRCLE_SHA1
 
 
 
@@ -71,9 +63,6 @@ workflows:
     # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
     jobs:
       - build-and-test
-      - docker/publish:
-          image: aponovi/oc-lettings-site
-          tag: "$CIRCLE_SHA1,latest"
-          extra_build_args: '--build-arg secret_key=$SECRET_KEY --build-arg'
+      - containerize:
           requires:
             - build-and-test
