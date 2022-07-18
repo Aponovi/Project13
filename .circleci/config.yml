@@ -60,7 +60,7 @@ jobs:
           command: |
             docker build --tag oc-lettings-site .
             docker tag oc-lettings-site aponovi/oc-lettings-site
-            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker tag oc-lettings:MY_ENV_VAR $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
             docker push $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
 
