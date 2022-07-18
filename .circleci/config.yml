@@ -39,17 +39,17 @@ jobs:
   containerize:
       docker:
       - image: circleci/python:3.10
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 20.10.2
-      - run:
-          name: build
-          command: |
-            docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
-            docker tag oc-lettings-site:$CIRCLE_SHA1 aponovi/oc-lettings-site:$CIRCLE_SHA1
-            echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USER}' --password-stdin
-            docker push aponovi/oc-lettings-site:$CIRCLE_SHA1
+      steps:
+        - checkout
+        - setup_remote_docker:
+            version: 20.10.2
+        - run:
+            name: build
+            command: |
+              docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
+              docker tag oc-lettings-site:$CIRCLE_SHA1 aponovi/oc-lettings-site:$CIRCLE_SHA1
+              echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USER}' --password-stdin
+              docker push aponovi/oc-lettings-site:$CIRCLE_SHA1
 
 
 
