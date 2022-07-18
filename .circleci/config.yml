@@ -75,6 +75,8 @@ workflows:
             branches:
               only: master
       - deploy:
+          context:
+            - oc-P13
           requires:
             - build-and-test
             - containerize
