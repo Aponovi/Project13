@@ -56,6 +56,8 @@ jobs:
     executor: heroku/default
     steps:
       - checkout
+      - run: heroku config:set SECRET_KEY=$SECRET_KEY -a $HEROKU_APP_NAME
+      - run: heroku config:set DSN=$DSN -a $HEROKU_APP_NAME
       - heroku/deploy-via-git
 
 workflows:
