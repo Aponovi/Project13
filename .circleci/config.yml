@@ -49,8 +49,6 @@ jobs:
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD
-        environment:
-          USER: $DOCKERHUB_USER
     steps:
       - checkout
       - setup_remote_docker:
@@ -58,11 +56,12 @@ jobs:
       - run:
           name: build
           command: |
+            USER = $DOCKERHUB_USER
             docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
             docker tag oc-lettings-site:$CIRCLE_SHA1 USER/oc-lettings-site:$CIRCLE_SHA1
-            docker login -u $USER -p $DOCKERHUB_PASSWORD
-            docker tag oc-lettings:MY_ENV_VAR $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
-            docker push $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+            docker tag oc-lettings:$CIRCLE_SHA1 USER/oc-lettings:$CIRCLE_SHA1
+            docker push $DOCKERHUB_USER/oc-lettings:$CIRCLE_SHA1
 
 
 
