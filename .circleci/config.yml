@@ -1,5 +1,13 @@
 version: 2.1
 
+executors:
+  default:
+    docker:
+      - image: circleci/python:3.10
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
+
 orbs:
   # The python orb contains a set of prepackaged circleci configuration you can use repeatedly in your configurations files
   # Orb commands and jobs help you with common scripting around a language/tool
@@ -45,12 +53,13 @@ jobs:
           MY_ENV_VAR: $CIRCLE_SHA1
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.2
       - run:
           name: build
           command: |
             docker build --tag oc-lettings:MY_ENV_VAR .
-            docker login --username $DOCKERHUB_USER --password $DOCKERHUB_PASSWORD
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
             docker tag oc-lettings:MY_ENV_VAR $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
             docker push $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
 
