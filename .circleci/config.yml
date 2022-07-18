@@ -38,16 +38,21 @@ jobs:
   containerize:
     docker:
       - image: circleci/python:3.10
+    auth:
+      username: $DOCKERHUB_USER
+      password: $DOCKERHUB_PASSWORD
+    environment:
+      MY_ENV_VAR: $CIRCLE_SHA1
     steps:
       - checkout
       - setup_remote_docker
-      - run: |
-          TAG=$CIRCLE_SHA1
-          docker build -t $DOCKERHUB_USER/oc_lettings .
-          docker build -t $DOCKERHUB_USER/oc_lettings:$TAG .
-          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
-          docker push $DOCKERHUB_USER/oc_lettings
-          docker push $DOCKERHUB_USER/oc_lettings:$TAG
+      - run:
+          name: build
+          command: |
+            docker build --tag oc-lettings:MY_ENV_VAR .
+            docker login --username $DOCKERHUB_USER --password $DOCKERHUB_PASSWORD
+            docker tag oc-lettings:MY_ENV_VAR $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
+            docker push $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
 
 
 
