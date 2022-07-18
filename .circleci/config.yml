@@ -5,8 +5,8 @@ executors:
     docker:
       - image: circleci/python:3.10
         auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASSWORD
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
 
 orbs:
   # The python orb contains a set of prepackaged circleci configuration you can use repeatedly in your configurations files
@@ -58,8 +58,9 @@ jobs:
       - run:
           name: build
           command: |
-            docker build --tag oc-lettings:MY_ENV_VAR .
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            docker build --tag oc-lettings-site .
+            docker tag oc-lettings-site $DOCKERHUB_USER/oc-lettings-site
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
             docker tag oc-lettings:MY_ENV_VAR $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
             docker push $DOCKERHUB_USER/oc-lettings:MY_ENV_VAR
 
