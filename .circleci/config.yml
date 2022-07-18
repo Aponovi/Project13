@@ -39,10 +39,6 @@ jobs:
   containerize:
       docker:
       - image: circleci/python:3.10
-        auth:
-          username: ${DOCKERHUB_USER}
-          password: ${DOCKERHUB_PASSWORD}
-    working_directory: ~/project
     steps:
       - checkout
       - setup_remote_docker:
