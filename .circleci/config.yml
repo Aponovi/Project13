@@ -37,18 +37,18 @@ jobs:
 
   containerize:
     docker:
-      - image: cimg/python:3.10
+      - image: circleci/python:3.10
     steps:
       - checkout
-#      - setup_remote_docker:
-#          version: 20.10.2
-      - run:
-          name: Build Docker image
-          command: |
-            docker build --tag oc-lettings:"$CIRCLE_SHA1" .
-            docker login --username $DOCKERHUB_USER --password $DOCKERHUB_PASSWORD
-            docker tag oc-lettings:"$CIRCLE_SHA1" $DOCKERHUB_USER/oc-lettings:"$CIRCLE_SHA1"
-            docker push $DOCKERHUB_USER/oc-lettings:"$CIRCLE_SHA1"
+      - setup_remote_docker
+      - run: |
+          TAG=$CIRCLE_SHA1
+          docker build -t $DOCKERHUB_USER/oc_lettings .
+          docker build -t $DOCKERHUB_USER/oc_lettings:$TAG .
+          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
+          docker push $DOCKERHUB_USER/oc_lettings
+          docker push $DOCKERHUB_USER/oc_lettings:$TAG
+
 
 
 workflows:
