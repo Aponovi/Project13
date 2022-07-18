@@ -44,7 +44,9 @@ jobs:
 #          version: 20.10.2
       - run:
           name: Build Docker image
-          command: docker build -t oc-lettings:$CIRCLE_SHA1 .
+          command: |
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
+            docker build -t oc-lettings:$CIRCLE_SHA1 .
       - run:
           name: Push Docker image
           command: |
