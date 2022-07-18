@@ -1,5 +1,13 @@
 version: 2.1
 
+executors:
+  default:
+    docker:
+      - image: circleci/python:3.10
+        auth:
+          username: $DOCKERHUB_USER
+          password: $TOKEN_DOCKER
+
 orbs:
   # The python orb contains a set of prepackaged circleci configuration you can use repeatedly in your configurations files
   # Orb commands and jobs help you with common scripting around a language/tool
