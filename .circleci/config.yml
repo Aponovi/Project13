@@ -60,7 +60,7 @@ jobs:
             docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
             docker tag oc-lettings-site:$CIRCLE_SHA1 aponovi/oc-lettings-site:$CIRCLE_SHA1
             docker login -u aponovi -p 1fb617f2-a543-483b-8d86-9229e8492bb4
-            docker push aponovi/oc-lettings-site$DOCKERHUB_USER:$CIRCLE_SHA1
+            docker push aponovi/oc-lettings-site:$CIRCLE_SHA1
 
 
 
