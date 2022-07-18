@@ -38,11 +38,11 @@ jobs:
   containerize:
     docker:
       - image: circleci/python:3.10
-    auth:
-      username: $DOCKERHUB_USER
-      password: $DOCKERHUB_PASSWORD
-    environment:
-      MY_ENV_VAR: $CIRCLE_SHA1
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
+        environment:
+          MY_ENV_VAR: $CIRCLE_SHA1
     steps:
       - checkout
       - setup_remote_docker
