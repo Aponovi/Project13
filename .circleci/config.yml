@@ -7,6 +7,7 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@2.0.3
   docker: circleci/docker@2.1.2
+  heroku: circleci/heroku@1.2.6
 
 jobs:
   build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
@@ -51,7 +52,11 @@ jobs:
               echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
               docker push "$DOCKERHUB_USER/oc-lettings-site:$CIRCLE_SHA1"
 
-
+  deploy-production:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/deploy-via-git
 
 workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
@@ -64,3 +69,13 @@ workflows:
             - oc-P13
           requires:
             - build-and-test
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build-and-test
+            - containerize
+          filters:
+            branches:
+              only: master
