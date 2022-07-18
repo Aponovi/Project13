@@ -8,7 +8,7 @@ orbs:
   python: circleci/python@2.0.3
 
 jobs:
-  build-and-test:  # This is the name of the job, feel free to change it to better match what you're trying to do!
+  build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
     # These next lines defines a docker executors: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from dockerhub or use one of the convenience images from CircleCI's Developer Hub
     # A list of available CircleCI docker convenience images are available here: https://circleci.com/developer/images/image/cimg/python
@@ -34,9 +34,29 @@ jobs:
       - run:
           name: Run linting
           command: flake8
+
+  containerize:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run: |
+          TAG=$CIRCLE_SHA1
+          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
+          docker build -t $DOCKERHUB_USER/oc-lettings:$TAG .
+          docker tag $DOCKERHUB_USER/oc-lettings:$TAG $DOCKERHUB_USER/oc-lettings:latest
+          docker push $DOCKERHUB_USER/oc-lettings:$TAG
+          docker push $DOCKERHUB_USER/oc-lettings:latest
+
+
 workflows:
-  sample:  # This is the name of the workflow, feel free to change it to better match your workflow.
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
     jobs:
       - build-and-test
+      - containerize:
+          requires:
+            - build-and-test

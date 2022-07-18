@@ -4,6 +4,7 @@ FROM python:3.10
 
 # Python Interpreter Flags
 ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
     DEBUG=True
 
 RUN mkdir /app
