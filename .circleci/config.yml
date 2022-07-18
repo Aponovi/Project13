@@ -45,10 +45,11 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t oc-lettings:'$CIRCLE_SHA1' .
+             docker build --tag oc-lettings-site .
       - run:
           name: Push Docker image
           command: |
+            docker tag ocr-docker-build:$CIRCLE_SHA1 $DOCKERHUB_USER/ocr-docker-build:$CIRCLE_SHA1
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
             docker push $DOCKERHUB_USER/oc-lettings:$CIRCLE_SHA1
 
