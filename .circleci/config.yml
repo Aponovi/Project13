@@ -56,12 +56,10 @@ jobs:
       - run:
           name: build
           command: |
-            USER = $DOCKERHUB_USER
             docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
-            docker tag oc-lettings-site:$CIRCLE_SHA1 USER/oc-lettings-site:$CIRCLE_SHA1
+            docker tag oc-lettings$DOCKERHUB_USER:$CIRCLE_SHA1 $DOCKERHUB_USER/oc-lettings-site:$CIRCLE_SHA1
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-            docker tag oc-lettings:$CIRCLE_SHA1 USER/oc-lettings:$CIRCLE_SHA1
-            docker push $DOCKERHUB_USER/oc-lettings:$CIRCLE_SHA1
+            docker push $DOCKERHUB_USER/oc-lettings$DOCKERHUB_USER:$CIRCLE_SHA1
 
 
 
