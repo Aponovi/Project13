@@ -75,3 +75,24 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+### Déploiement
+Les éléments suivants sont nécessaires afin de réussir le déploiement sur Heroku
+
+Avoir un compte sur :
+- Dockerhub
+- Heroku
+- Sentry
+- CircleCI
+
+Effectuer la liaison entre CircleCI et le repository git.
+
+Configurer les variables d'environnement suivantes :
+- DOCKERHUB_USER : nom du compte dockerhub
+- DOCKERHUB_PASSWORD : mot de passe dockerhub
+- HEROKU_APP_NAME : Nom de l'application Heroku
+- HEROKU_TOKEN : Clé d'API du compte Heroku
+- DSN : Pour avoir une gestion des incidents depuis Sentry
+- SECRET_KEY : la clé d'encodage de Django
+
+Lien vers le site : https://oc-lettings-88.herokuapp.com/
