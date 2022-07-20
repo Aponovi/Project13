@@ -95,4 +95,4 @@ Configurer les variables d'environnement suivantes :
 - DSN : Pour avoir une gestion des incidents depuis Sentry
 - SECRET_KEY : la clé d'encodage de Django
 
-Lien vers le site : https://oc-lettings-88.herokuapp.com/
+Lien vers le site : https://oc-lettings-site-2022.herokuapp.com/
